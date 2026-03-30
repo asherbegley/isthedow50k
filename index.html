@@ -64,7 +64,7 @@
                 
                 // Safety check for API limits
                 if (!data["Global Quote"]) {
-                   marketEl.innerText = "Market data currently restricted (but we know the answer).";
+                   marketEl.innerText = "Error fetching the data (it was probably redacted).";
                    return;
                 }
 
