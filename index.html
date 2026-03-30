@@ -1,4 +1,61 @@
-<<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is the Dow 50k?</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            text-align: center;
+        }
+        #answer {
+            font-size: 30vw;
+            font-weight: 900;
+            margin: 0;
+            line-height: 0.9;
+            /* Default to Red */
+            color: #dc3545; 
+        }
+        #verdict {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-top: 10px;
+            color: #333;
+        }
+        #market-data {
+            font-size: 1.2rem;
+            color: #777;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 60px;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            color: #999;
+            font-size: 0.9rem;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="answer">NO</div>
+    <div id="verdict">Feel free to talk about the Epstein Files.</div>
+    <div id="market-data">Fetching live DJI price...</div>
+
+    <div class="footer">
+        "But the stock market is doing so well." <br>
+        — <strong>Pam Bondi</strong>, US Attorney General
+    </div>
+    <<script>
     const apiKey = 'RTOB33Z3DOSWCFNI'; 
     // We use DIA (the ETF) because the Dow Index (DJI) is restricted on free keys
     const symbol = 'DIA'; 
@@ -41,3 +98,5 @@
 
     updateStatus();
 </script>
+</body>
+</html>
