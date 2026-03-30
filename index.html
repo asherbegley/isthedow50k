@@ -1,52 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Is the Dow 50k?</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            text-align: center;
-        }
-        #answer {
-            font-size: 30vw;
-            font-weight: 900;
-            margin: 0;
-            line-height: 0.9;
-        }
-        #verdict {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-top: 10px;
-            color: #333;
-        }
-        #market-data {
-            font-size: 1.2rem;
-            color: #777;
-            margin-top: 20px;
-        }
-        .footer {
-            margin-top: 60px;
-            padding: 20px;
-            border-top: 1px solid #ddd;
-            color: #999;
-            font-size: 0.9rem;
-            max-width: 500px;
-        }
-    </style>
-</head>
-<body>
+<style>
+    body {
+        background-color: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        text-align: center;
+    }
+    #answer {
+        font-size: 30vw;
+        font-weight: 900;
+        margin: 0;
+        line-height: 0.9;
+        /* Set Red as the default color */
+        color: #dc3545; 
+    }
+    #verdict {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-top: 10px;
+        color: #333;
+    }
+    #market-data {
+        font-size: 1.2rem;
+        color: #777;
+        margin-top: 20px;
+    }
+    .footer {
+        margin-top: 60px;
+        padding: 20px;
+        border-top: 1px solid #ddd;
+        color: #999;
+        font-size: 0.9rem;
+        max-width: 500px;
+    }
+</style>
 
-    <div id="answer">...</div>
-    <div id="verdict">Checking the "Bondi Index"...</div>
+<body>
+    <div id="answer">NO</div>
+    <div id="verdict">Feel free to talk about the Epstein Files.</div>
     <div id="market-data">Fetching live DJI price...</div>
 
     <div class="footer">
@@ -66,36 +61,29 @@
             try {
                 const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`);
                 const data = await response.json();
-                const price = parseFloat(data["Global Quote"]["05. price"]);
                 
-                if (isNaN(price)) throw new Error("API Limit");
+                // Safety check for API limits
+                if (!data["Global Quote"]) {
+                   marketEl.innerText = "Market data currently restricted (but we know the answer).";
+                   return;
+                }
+
+                const price = parseFloat(data["Global Quote"]["05. price"]);
 
                 if (price >= 50000) {
                     answerEl.innerText = "YES";
-                    answerEl.style.color = "#28a745"; // Success Green
-                    verdictEl.innerText = "Please consider talking about this rather than the Epstein Files.";
-                } else {
-                    answerEl.innerText = "NO";
-                    answerEl.style.color = "#dc3545"; // Failure Red
-                    verdictEl.innerText = "Feel free to talk about the Epstein Files.";
-                }
+                    answerEl.style.color = "#28a745"; // Changes to Green
+                    verdictEl.innerText = "Please consider talking about this rather than the Epstein File.";
+                } 
+                // No 'else' needed for color because it's already red in CSS
 
                 marketEl.innerText = `Dow Jones Industrial Average: ${price.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
             } catch (error) {
-                // Default to NO if API is down/limited
-                answerEl.innerText = "NO";
-                answerEl.style.color = "#dc3545";
-                verdictEl.innerText = "Feel free to talk about the Epstein Files.";
-                marketEl.innerText = "Error fetching the data (it was probably redacted).";
+                marketEl.innerText = "Market data currently unavailable.";
             }
         }
 
         updateStatus();
     </script>
-    <meta property="og:title" content="Is the Dow 50k?">
-    <meta property="og:description" content="A live check on the stock market vs. the Epstein files.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://isthedow50k.com">
 </body>
-</html>
